@@ -86,7 +86,7 @@ header {
 /* Hero Section with Split Layout */
 .hero {
     background: linear-gradient(rgba(43, 30, 20, 0.75), rgba(43, 30, 20, 0.75)), 
-                url('https://images.unsplash.com/photo-1541625602330-2277a4c46182?auto=format&fit=crop&q=80&w=1920') no-repeat center center/cover;
+                url('hero-excavator.png') no-repeat center center/cover;
     color: #ffffff;
     padding: 90px 0;
 }
