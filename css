@@ -1,0 +1,358 @@
+/* ==========================================================================
+   KL Dirt Co. - Warm & Smooth Earthy Stylesheet
+   ========================================================================== */
+
+/* Modern Reset & Base Styles */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #3d352e;            /* Smooth deep charcoal-brown for readable text */
+    background-color: #fbf9f6; /* Warm off-white background */
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Header & Navigation */
+header {
+    background-color: #ffffff;
+    box-shadow: 0 2px 15px rgba(74, 53, 37, 0.05); /* Subtle warm shadow */
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: 800;
+    color: #b07241; /* Warm terracotta brown */
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.logo span {
+    color: #4a3525; /* Deep espresso brown */
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 25px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #615246; /* Smooth muted brown */
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: #b07241; /* Shifts to terracotta on hover */
+}
+
+.nav-cta {
+    background-color: #b07241;
+    color: #ffffff !important;
+    padding: 10px 20px;
+    border-radius: 6px;
+    transition: background-color 0.3s ease !important;
+}
+
+.nav-cta:hover {
+    background-color: #91562b; /* Smooth, slightly darker warm tone */
+}
+
+/* Hero Section with Split Layout */
+.hero {
+    background: linear-gradient(rgba(43, 30, 20, 0.75), rgba(43, 30, 20, 0.75)), 
+                url('https://images.unsplash.com/photo-1541625602330-2277a4c46182?auto=format&fit=crop&q=80&w=1920') no-repeat center center/cover;
+    color: #ffffff;
+    padding: 90px 0;
+}
+
+.hero-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    align-items: center;
+}
+
+@media (min-width: 768px) {
+    .hero-grid {
+        grid-template-columns: 1.2fr 0.8fr;
+    }
+}
+
+.hero-text h1 {
+    font-size: 42px;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    color: #fffdfa;
+}
+
+.hero-text p {
+    font-size: 18px;
+    margin-bottom: 30px;
+    color: #e6dfd5; /* Soft cream text */
+}
+
+.features-list {
+    list-style: none;
+}
+
+.features-list li {
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    color: #f5ece1;
+}
+
+.features-list li::before {
+    content: "✓";
+    color: #e3a878; /* Vibrant but soft gold/orange soil accent */
+    font-weight: bold;
+    margin-right: 12px;
+    font-size: 18px;
+}
+
+/* Lead Form Card */
+.form-card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 35px;
+    box-shadow: 0 15px 35px rgba(43, 30, 20, 0.25); /* Deep warm shadow */
+    color: #3d352e;
+}
+
+.form-card h3 {
+    font-size: 24px;
+    margin-bottom: 8px;
+    color: #4a3525;
+    font-weight: 700;
+}
+
+.form-card p {
+    font-size: 14px;
+    color: #7a6b5e; /* Muted clay brown */
+    margin-bottom: 25px;
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #615246;
+}
+
+.form-group input, .form-group select, .form-group textarea {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1px solid #e3ded9; /* Smooth sand outline */
+    border-radius: 6px;
+    font-size: 14px;
+    background-color: #fdfcfb;
+    color: #3d352e;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    outline: none;
+    border-color: #b07241;
+    box-shadow: 0 0 0 3px rgba(176, 114, 65, 0.15); /* Soft outer glow */
+}
+
+.submit-btn {
+    width: 100%;
+    background-color: #b07241;
+    color: #ffffff;
+    border: none;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 10px;
+}
+
+.submit-btn:hover {
+    background-color: #91562b;
+}
+
+.submit-btn:active {
+    transform: scale(0.99);
+}
+
+/* Services Section */
+.services {
+    padding: 90px 0;
+    background-color: #ffffff;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 55px;
+}
+
+.section-title h2 {
+    font-size: 34px;
+    color: #4a3525;
+    margin-bottom: 15px;
+    position: relative;
+    display: inline-block;
+}
+
+.section-title h2::after {
+    content: '';
+    width: 50px;
+    height: 4px;
+    background-color: #b07241;
+    border-radius: 2px;
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.section-title p {
+    color: #7a6b5e;
+    font-size: 16px;
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.service-box {
+    background-color: #fbf9f6;
+    border: 1px solid #f0e9e1;
+    border-radius: 8px;
+    padding: 35px 30px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.service-box:hover {
+    transform: translateY(-5px);
+    border-color: #e3ded9;
+    box-shadow: 0 10px 25px rgba(74, 53, 37, 0.04);
+}
+
+.service-icon {
+    font-size: 44px;
+    margin-bottom: 20px;
+    display: inline-block;
+    /* Soft warm glow drop-shadow behind emojis */
+    filter: drop-shadow(0 4px 6px rgba(176, 114, 65, 0.2)); 
+}
+
+.service-box h3 {
+    font-size: 21px;
+    color: #4a3525;
+    margin-bottom: 12px;
+}
+
+.service-box p {
+    color: #615246;
+    font-size: 15px;
+}
+
+/* Social Proof / Why Choose Us */
+.why-us {
+    padding: 90px 0;
+    background-color: #f4eee7; /* Creamy mud/clay undertone background */
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 40px;
+    text-align: center;
+}
+
+.stat-item h4 {
+    font-size: 46px;
+    color: #b07241;
+    margin-bottom: 5px;
+    font-weight: 800;
+}
+
+.stat-item p {
+    font-size: 16px;
+    color: #4a3525;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Footer */
+footer {
+    background-color: #261c14; /* Deep, ultra-dark coffee brown */
+    color: #e6dfd5;
+    padding: 50px 0 25px 0;
+    font-size: 14px;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+.footer-about h3, .footer-contact h3 {
+    font-size: 18px;
+    margin-bottom: 20px;
+    color: #e3a878; /* Soft golden highlight */
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.footer-about p {
+    color: #c7beab;
+    max-width: 320px;
+}
+
+.footer-contact p {
+    color: #c7beab;
+    margin-bottom: 10px;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 25px;
+    border-top: 1px solid #3d2f24;
+    color: #948b7c;
+}
