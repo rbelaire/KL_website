@@ -1,32 +1,47 @@
-/* ==========================================================================
-   KL Dirt Co. - Interactive Scripts
-   ========================================================================== */
-
+// script.js
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.querySelector('#quote-form form');
 
     if (form) {
-        form.addEventListener('submit', (event) => {
-            // Prevent the default browser form submission behavior
+        form.addEventListener('submit', async (event) => {
             event.preventDefault();
 
-            // Grab the input data
-            const name = document.getElementById('name').value.trim();
-            const phone = document.getElementById('phone').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const service = document.getElementById('service-type').value;
+            // Gather form data into a neat object
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
 
-            // Basic front-end validation check
-            if (!name || !phone || !email || !service) {
-                alert('Please fill out all required fields.');
-                return;
+            // Optional: Change button text to show loading state
+            const submitBtn = form.querySelector('.submit-btn');
+            const originalBtnText = submitBtn.textContent;
+            submitBtn.textContent = "Sending...";
+            submitBtn.disabled = true;
+
+            try {
+                // Post data directly to your Vercel serverless function endpoint
+                const response = await fetch('/api/submit-lead', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (response.ok && result.success) {
+                    alert(`Thank you, ${data.name}! Your request has been received. Our team will contact you shortly.`);
+                    form.reset();
+                } else {
+                    alert(`Oops! ${result.error || 'Something went wrong. Please try again.'}`);
+                }
+            } catch (error) {
+                console.error('Submission Error:', error);
+                alert('Network error. Please check your connection and try again.');
+            } finally {
+                // Restore button state
+                submitBtn.textContent = originalBtnText;
+                submitBtn.disabled = false;
             }
-
-            // Success feedback (Simulating a lead generation dispatch)
-            alert(`Thank you, ${name}! Your request for "${form.elements['service-type'].options[form.elements['service-type'].selectedIndex].text}" has been received. Our team will contact you shortly.`);
-            
-            // Reset the form layout after submission
-            form.reset();
         });
     }
 });
