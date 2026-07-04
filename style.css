@@ -352,9 +352,11 @@ header {
 }
 
 .service-icon {
-    font-size: 44px;
-    margin-bottom: 20px;
-    display: inline-block;
+    width: 52px;
+    height: 52px;
+    margin: 0 auto 22px;
+    display: block;
+    color: var(--color-terracotta);
     filter: drop-shadow(0 4px 6px rgba(176, 114, 65, 0.2));
 }
 
@@ -427,7 +429,17 @@ footer {
 
 .footer-contact p {
     color: #c7beab;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.footer-contact svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    color: var(--color-gold);
 }
 
 .footer-contact a {
