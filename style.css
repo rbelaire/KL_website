@@ -145,7 +145,7 @@ header {
 /* Hero Section with Split Layout */
 .hero {
     background: linear-gradient(rgba(43, 30, 20, 0.75), rgba(43, 30, 20, 0.75)),
-                url('hero-excavator.png') no-repeat center center/cover;
+                url('hero-excavator.webp') no-repeat center center/cover;
     color: #ffffff;
     padding: clamp(56px, 10vw, 90px) 0;
 }
