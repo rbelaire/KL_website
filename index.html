@@ -3,16 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#b07241">
+    <meta name="description" content="KL Dirt Co. delivers professional excavation, site preparation, land clearing, and earthmoving services with precision and reliable turnaround. Licensed, insured, and experienced. Get a free estimate today.">
+
+    <title>KL Dirt Co. | Professional Excavation &amp; Earthmoving Services</title>
+
+    <!-- Open Graph / social sharing -->
+    <meta property="og:title" content="KL Dirt Co. | Professional Excavation &amp; Earthmoving Services">
+    <meta property="og:description" content="Precision site preparation, excavation, and land clearing for projects of all sizes. Licensed, insured, and reliable. Request a free estimate.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="hero-excavator.webp">
+
+    <!-- Inline SVG favicon (excavator theme, no extra request) -->
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23b07241'/%3E%3Ctext x='50' y='50' font-size='55' text-anchor='middle' dominant-baseline='central'%3E%F0%9F%9A%9C%3C/text%3E%3C/svg%3E">
+
+    <link rel="preload" as="image" href="hero-excavator.webp" type="image/webp">
     <link rel="stylesheet" href="style.css">
-    <title>KL Dirt Co. | Professional Excavation & Earthmoving Services</title>
-    </head>
+    <script src="script.js" defer></script>
+</head>
 <body>
-<script src="script.js"></script>
     <!-- Header & Navigation -->
     <header>
         <div class="nav-container">
             <a href="#" class="logo">KL <span>Dirt Co.</span></a>
-            <ul class="nav-links">
+
+            <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-links">
+                <span class="nav-toggle-bar"></span>
+                <span class="nav-toggle-bar"></span>
+                <span class="nav-toggle-bar"></span>
+            </button>
+
+            <ul class="nav-links" id="nav-links">
                 <li><a href="#services">Services</a></li>
                 <li><a href="#why-us">Why Choose Us</a></li>
                 <li><a href="#quote-form" class="nav-cta">Get a Quote</a></li>
@@ -20,112 +41,115 @@
         </div>
     </header>
 
-    <!-- Hero Section with Lead Capture Form -->
-    <section class="hero">
-        <div class="container hero-grid">
-            <div class="hero-text">
-                <h1>Professional Earthmoving & Site Preparation Services</h1>
-                <p>From commercial site excavation to residential land clearing, KL Dirt Co. delivers precision, power, and reliable turnaround times for projects of all sizes.</p>
-                <ul class="features-list">
-                    <li>Licensed, Insured, and Highly Experienced Crew</li>
-                    <li>State-of-the-Art Excavation Equipment</li>
-                    <li>Transparent Pricing & Free Accurate Estimates</li>
-                    <li>Serving the Entire Regional Area</li>
-                </ul>
-            </div>
-            
-            <!-- Lead Generation Form Box -->
-            <div class="form-card" id="quote-form">
-                <h3>Request a Free Estimate</h3>
-                <p>Fill out the form below, and our project manager will contact you within 24 hours.</p>
-                <form action="#" method="POST" onsubmit="alert('Thank you! This placeholder form has been submitted successfully.'); return false;">
-                    <div class="form-group">
-                        <label for="name">Full Name *</label>
-                        <input type="text" id="name" name="name" placeholder="John Doe" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="phone">Phone Number *</label>
-                        <input type="tel" id="phone" name="phone" placeholder="(555) 123-4567" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email Address *</label>
-                        <input type="email" id="email" name="email" placeholder="john@example.com" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="service-type">Required Service *</label>
-                        <select id="service-type" name="service-type" required>
-                            <option value="" disabled selected>Select a service...</option>
-                            <option value="site-prep">Commercial Site Prep</option>
-                            <option value="excavation">Residential Excavation</option>
-                            <option value="land-clearing">Land Clearing & Grading</option>
-                            <option value="trenching">Trenching & Utility Lines</option>
-                            <option value="other">Other / Custom Project</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="message">Project Brief Description</label>
-                        <textarea id="message" name="message" rows="3" placeholder="Tell us briefly about your project scope..."></textarea>
-                    </div>
-                    <button type="submit" class="submit-btn">Get My Free Quote</button>
-                </form>
-            </div>
-        </div>
-    </section>
+    <main>
+        <!-- Hero Section with Lead Capture Form -->
+        <section class="hero">
+            <div class="container hero-grid">
+                <div class="hero-text">
+                    <h1>Professional Earthmoving &amp; Site Preparation Services</h1>
+                    <p>From commercial site excavation to residential land clearing, KL Dirt Co. delivers precision, power, and reliable turnaround times for projects of all sizes.</p>
+                    <ul class="features-list">
+                        <li>Licensed, Insured, and Highly Experienced Crew</li>
+                        <li>State-of-the-Art Excavation Equipment</li>
+                        <li>Transparent Pricing &amp; Free Accurate Estimates</li>
+                        <li>Serving the Entire Regional Area</li>
+                    </ul>
+                </div>
 
-    <!-- Services Section -->
-    <section class="services" id="services">
-        <div class="container">
-            <div class="section-title">
-                <h2>Our Core Services</h2>
-                <p>High-quality dirt work, grading, and site development solutions tailored to your needs.</p>
+                <!-- Lead Generation Form Box -->
+                <div class="form-card" id="quote-form">
+                    <h3>Request a Free Estimate</h3>
+                    <p>Fill out the form below, and our project manager will contact you within 24 hours.</p>
+                    <form action="/api/submit-lead" method="POST" novalidate>
+                        <div class="form-group">
+                            <label for="name">Full Name *</label>
+                            <input type="text" id="name" name="name" placeholder="John Doe" autocomplete="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number *</label>
+                            <input type="tel" id="phone" name="phone" placeholder="(555) 123-4567" autocomplete="tel" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" placeholder="john@example.com" autocomplete="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="service-type">Required Service *</label>
+                            <select id="service-type" name="service-type" required>
+                                <option value="" disabled selected>Select a service...</option>
+                                <option value="site-prep">Commercial Site Prep</option>
+                                <option value="excavation">Residential Excavation</option>
+                                <option value="land-clearing">Land Clearing &amp; Grading</option>
+                                <option value="trenching">Trenching &amp; Utility Lines</option>
+                                <option value="other">Other / Custom Project</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Project Brief Description</label>
+                            <textarea id="message" name="message" rows="3" placeholder="Tell us briefly about your project scope..."></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">Get My Free Quote</button>
+                        <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+                    </form>
+                </div>
             </div>
-            <div class="services-grid">
-                <div class="service-box">
-                    <div class="service-icon">🏗️</div>
-                    <h3>Site Preparation</h3>
-                    <p>Comprehensive grading, leveling, and preparation to build a solid foundation for any commercial or residential structure.</p>
-                </div>
-                <div class="service-box">
-                    <div class="service-icon">🚜</div>
-                    <h3>Excavation & Digging</h3>
-                    <p>Precise deep digging for basements, foundations, pools, and major structural requirements using heavy duty fleets.</p>
-                </div>
-                <div class="service-box">
-                    <div class="service-icon">🌲</div>
-                    <h3>Land Clearing</h3>
-                    <p>Efficient removal of trees, brush, debris, and boulders to transform unmanageable lots into clean, buildable land.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Why Choose Us / Proof Section -->
-    <section class="why-us" id="why-us">
-        <div class="container">
-            <div class="section-title">
-                <h2>Why Choose KL Dirt Co.</h2>
-                <p>We pride ourselves on solid workmanship, safety adherence, and client satisfaction.</p>
+        <!-- Services Section -->
+        <section class="services" id="services">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Our Core Services</h2>
+                    <p>High-quality dirt work, grading, and site development solutions tailored to your needs.</p>
+                </div>
+                <div class="services-grid">
+                    <div class="service-box">
+                        <div class="service-icon" aria-hidden="true">🏗️</div>
+                        <h3>Site Preparation</h3>
+                        <p>Comprehensive grading, leveling, and preparation to build a solid foundation for any commercial or residential structure.</p>
+                    </div>
+                    <div class="service-box">
+                        <div class="service-icon" aria-hidden="true">🚜</div>
+                        <h3>Excavation &amp; Digging</h3>
+                        <p>Precise deep digging for basements, foundations, pools, and major structural requirements using heavy duty fleets.</p>
+                    </div>
+                    <div class="service-box">
+                        <div class="service-icon" aria-hidden="true">🌲</div>
+                        <h3>Land Clearing</h3>
+                        <p>Efficient removal of trees, brush, debris, and boulders to transform unmanageable lots into clean, buildable land.</p>
+                    </div>
+                </div>
             </div>
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <h4>15+</h4>
-                    <p>Years Experience</p>
+        </section>
+
+        <!-- Why Choose Us / Proof Section -->
+        <section class="why-us" id="why-us">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Why Choose KL Dirt Co.</h2>
+                    <p>We pride ourselves on solid workmanship, safety adherence, and client satisfaction.</p>
                 </div>
-                <div class="stat-item">
-                    <h4>500+</h4>
-                    <p>Projects Completed</p>
-                </div>
-                <div class="stat-item">
-                    <h4>100%</h4>
-                    <p>Licensed & Insured</p>
-                </div>
-                <div class="stat-item">
-                    <h4>5-Star</h4>
-                    <p>Average Rating</p>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <h4>15+</h4>
+                        <p>Years Experience</p>
+                    </div>
+                    <div class="stat-item">
+                        <h4>500+</h4>
+                        <p>Projects Completed</p>
+                    </div>
+                    <div class="stat-item">
+                        <h4>100%</h4>
+                        <p>Licensed &amp; Insured</p>
+                    </div>
+                    <div class="stat-item">
+                        <h4>5-Star</h4>
+                        <p>Average Rating</p>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
     <!-- Footer -->
     <footer>
@@ -137,14 +161,13 @@
             <div class="footer-contact">
                 <h3>Contact Info</h3>
                 <p>📍 123 Earthworks Blvd, Suite A</p>
-                <p>📞 Phone: (555) 987-6543</p>
-                <p>✉️ Email: info@kldirtco-placeholder.com</p>
+                <p>📞 Phone: <a href="tel:+15559876543">(555) 987-6543</a></p>
+                <p>✉️ Email: <a href="mailto:info@kldirtco-placeholder.com">info@kldirtco-placeholder.com</a></p>
             </div>
         </div>
         <div class="footer-bottom">
             <p>&copy; 2026 KL Dirt Co. All Rights Reserved. This is a lead generation website template.</p>
         </div>
     </footer>
-
 </body>
 </html>
