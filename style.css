@@ -77,17 +77,27 @@ header {
 }
 
 .logo {
-    font-size: 24px;
-    font-weight: 800;
-    color: var(--color-terracotta);
+    display: inline-flex;
+    flex-direction: column;
+    line-height: 1.05;
     text-decoration: none;
-    text-transform: uppercase;
-    letter-spacing: 1px;
     white-space: nowrap;
 }
 
-.logo span {
+.logo-main {
+    font-size: clamp(20px, 5vw, 23px);
+    font-weight: 800;
+    color: var(--color-terracotta);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.logo-sub {
+    font-size: clamp(9px, 2.4vw, 10.5px);
+    font-weight: 600;
     color: var(--color-espresso);
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
 
 .nav-links {
@@ -332,8 +342,20 @@ header {
 
 .services-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+    grid-template-columns: 1fr;
     gap: 30px;
+}
+
+@media (min-width: 560px) {
+    .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .services-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
 }
 
 .service-box {
