@@ -4,18 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#b07241">
-    <meta name="description" content="KL Dirt Co. delivers professional excavation, site preparation, building pads, drainage, and land clearing across South Louisiana. Licensed, insured, and experienced. Request a free estimate today.">
+    <meta name="description" content="Acadiana Construction Solutions offers dirt work, house pads, ponds, site development, culvert installs, driveways, demolition, roll-off dumpsters, fencing, decks, and custom patios across all of Acadiana. Based in New Iberia, LA. Request a free estimate today.">
 
-    <title>KL Dirt Co. | Excavation &amp; Earthmoving Services in South Louisiana</title>
+    <title>Acadiana Construction Solutions | Dirt Work, Site Development &amp; Excavation in New Iberia, LA</title>
 
     <!-- Open Graph / social sharing -->
-    <meta property="og:title" content="KL Dirt Co. | Excavation &amp; Earthmoving in South Louisiana">
-    <meta property="og:description" content="Precision site preparation, building pads, drainage, and land clearing across Acadiana and South Louisiana. Licensed, insured, and reliable. Request a free estimate.">
+    <meta property="og:title" content="Acadiana Construction Solutions | Dirt Work &amp; Site Development in Acadiana">
+    <meta property="og:description" content="Full-service dirt work, house pads, ponds, demolition, fencing, and custom patios across all of Acadiana. Based in New Iberia, LA. Request a free estimate.">
     <meta property="og:type" content="website">
     <meta property="og:image" content="hero-excavator.webp">
 
-    <!-- Inline SVG favicon: KL monogram (no extra request) -->
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23b07241'/%3E%3Ctext x='50' y='54' font-family='Georgia,serif' font-size='46' font-weight='bold' fill='%23ffffff' text-anchor='middle' dominant-baseline='central'%3EKL%3C/text%3E%3C/svg%3E">
+    <!-- Inline SVG favicon: ACS monogram (no extra request) -->
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23b07241'/%3E%3Ctext x='50' y='55' font-family='Georgia,serif' font-size='38' font-weight='bold' fill='%23ffffff' text-anchor='middle' dominant-baseline='central'%3EACS%3C/text%3E%3C/svg%3E">
 
     <link rel="preload" as="image" href="hero-excavator.webp" type="image/webp">
     <link rel="stylesheet" href="style.css">
@@ -25,7 +25,10 @@
     <!-- Header & Navigation -->
     <header>
         <div class="nav-container">
-            <a href="#" class="logo">KL <span>Dirt Co.</span></a>
+            <a href="#" class="logo">
+                <span class="logo-main">Acadiana</span>
+                <span class="logo-sub">Construction Solutions</span>
+            </a>
 
             <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-links">
                 <span class="nav-toggle-bar"></span>
@@ -46,20 +49,20 @@
         <section class="hero">
             <div class="container hero-grid">
                 <div class="hero-text">
-                    <h1>Professional Earthmoving &amp; Site Preparation Services</h1>
-                    <p>From commercial site excavation to residential land clearing, KL Dirt Co. delivers precision, power, and reliable turnaround times for projects of all sizes across South Louisiana.</p>
+                    <h1>Dirt Work, Site Development &amp; Outdoor Construction in Acadiana</h1>
+                    <p>From house pads and ponds to driveways, demolition, fencing, and custom patios, Acadiana Construction Solutions does it all &mdash; backed by heavy equipment and 9 years of local experience.</p>
                     <ul class="features-list">
-                        <li>Licensed, Insured, and Highly Experienced Crew</li>
-                        <li>State-of-the-Art Excavation Equipment</li>
-                        <li>Transparent Pricing &amp; Free Accurate Estimates</li>
-                        <li>Serving Acadiana &amp; All of South Louisiana</li>
+                        <li>9+ Years Serving All of Acadiana</li>
+                        <li>Full-Service &mdash; From Dirt Work to Custom Patios</li>
+                        <li>Large &amp; Small Excavator, Dozer &amp; Tractor Service</li>
+                        <li>Free, Accurate On-Site Estimates</li>
                     </ul>
                 </div>
 
                 <!-- Lead Generation Form Box -->
                 <div class="form-card" id="quote-form">
                     <h3>Request a Free Estimate</h3>
-                    <p>Fill out the form below, and our project manager will contact you within 24 hours.</p>
+                    <p>Fill out the form below, and we'll get back to you within 24 hours.</p>
                     <form action="/api/submit-lead" method="POST" novalidate>
                         <div class="form-group">
                             <label for="name">Full Name *</label>
@@ -67,7 +70,7 @@
                         </div>
                         <div class="form-group">
                             <label for="phone">Phone Number *</label>
-                            <input type="tel" id="phone" name="phone" placeholder="(555) 123-4567" autocomplete="tel" required>
+                            <input type="tel" id="phone" name="phone" placeholder="(337) 123-4567" autocomplete="tel" required>
                         </div>
                         <div class="form-group">
                             <label for="email">Email Address *</label>
@@ -77,10 +80,13 @@
                             <label for="service-type">Required Service *</label>
                             <select id="service-type" name="service-type" required>
                                 <option value="" disabled selected>Select a service...</option>
-                                <option value="site-prep">Commercial Site Prep</option>
-                                <option value="excavation">Residential Excavation</option>
-                                <option value="land-clearing">Land Clearing &amp; Grading</option>
-                                <option value="trenching">Trenching &amp; Utility Lines</option>
+                                <option value="dirt-work">Dirt Work &amp; House Pads</option>
+                                <option value="site-development">Site Development &amp; Driveways</option>
+                                <option value="ponds-excavation">Ponds &amp; Excavation</option>
+                                <option value="culverts">Culvert Installation</option>
+                                <option value="grading">Yard Leveling &amp; Grading</option>
+                                <option value="demolition">Demolition &amp; Dumpster Rental</option>
+                                <option value="outdoor-living">Fencing, Decks &amp; Patios</option>
                                 <option value="other">Other / Custom Project</option>
                             </select>
                         </div>
@@ -99,8 +105,8 @@
         <section class="services" id="services">
             <div class="container">
                 <div class="section-title">
-                    <h2>Our Core Services</h2>
-                    <p>High-quality dirt work, grading, and site development solutions tailored to your needs.</p>
+                    <h2>Our Services</h2>
+                    <p>Dirt work, excavation, demolition, and outdoor construction &mdash; one local team for the entire job.</p>
                 </div>
                 <div class="services-grid">
                     <div class="service-box">
@@ -109,8 +115,8 @@
                             <path d="M6 24l18 9 18-9"/>
                             <path d="M6 33l18 9 18-9"/>
                         </svg>
-                        <h3>Site Preparation</h3>
-                        <p>Comprehensive grading, leveling, and building-pad construction engineered for South Louisiana's high water table and drainage demands.</p>
+                        <h3>Dirt Work &amp; Site Prep</h3>
+                        <p>House pads, site development, driveways, yard leveling, and culvert installs built for Acadiana's terrain and drainage.</p>
                     </div>
                     <div class="service-box">
                         <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
@@ -119,16 +125,27 @@
                             <path d="M24 10v18"/>
                             <path d="M16 28h16v4a8 8 0 0 1-16 0Z"/>
                         </svg>
-                        <h3>Excavation &amp; Digging</h3>
-                        <p>Precise digging for foundations, ponds, culverts, and drainage systems, backed by heavy-duty equipment built for Gulf Coast soil conditions.</p>
+                        <h3>Excavation &amp; Ponds</h3>
+                        <p>Pond digging, land grading, and precision excavation with large and small excavator, dozer, and tractor service.</p>
                     </div>
                     <div class="service-box">
                         <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-                            <path d="M24 4 16 16h4l-7 10h5l-7 10h26l-7-10h5l-7-10h4L24 4Z"/>
-                            <path d="M24 36v8"/>
+                            <path d="M7 18 10 40h28l3-22Z"/>
+                            <path d="M3 18h42"/>
+                            <path d="M17 25v8M24 25v8M31 25v8"/>
                         </svg>
-                        <h3>Land Clearing</h3>
-                        <p>Efficient removal of trees, brush, and debris to turn overgrown or wooded lots into clean, buildable, and well-drained land.</p>
+                        <h3>Demolition &amp; Dumpsters</h3>
+                        <p>Structure and site demolition paired with roll-off dumpster service to haul away debris and leave a clean, ready lot.</p>
+                    </div>
+                    <div class="service-box">
+                        <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                            <path d="M13 44V15l3-4 3 4v29"/>
+                            <path d="M29 44V15l3-4 3 4v29"/>
+                            <path d="M8 22h32"/>
+                            <path d="M8 32h32"/>
+                        </svg>
+                        <h3>Fencing &amp; Outdoor Living</h3>
+                        <p>Custom fencing, decks, awnings, and patios that extend and elevate the outdoor space around your home.</p>
                     </div>
                 </div>
             </div>
@@ -138,25 +155,25 @@
         <section class="why-us" id="why-us">
             <div class="container">
                 <div class="section-title">
-                    <h2>Why Choose KL Dirt Co.</h2>
-                    <p>We pride ourselves on solid workmanship, safety adherence, and client satisfaction.</p>
+                    <h2>Why Choose Acadiana Construction Solutions</h2>
+                    <p>Nearly a decade of dependable dirt work and construction across Acadiana.</p>
                 </div>
                 <div class="stats-grid">
                     <div class="stat-item">
-                        <h4>15+</h4>
+                        <h4>9+</h4>
                         <p>Years Experience</p>
                     </div>
                     <div class="stat-item">
-                        <h4>500+</h4>
-                        <p>Projects Completed</p>
+                        <h4>15+</h4>
+                        <p>Services Offered</p>
                     </div>
                     <div class="stat-item">
-                        <h4>100%</h4>
-                        <p>Licensed &amp; Insured</p>
+                        <h4>Acadiana</h4>
+                        <p>Proudly Served</p>
                     </div>
                     <div class="stat-item">
-                        <h4>5-Star</h4>
-                        <p>Average Rating</p>
+                        <h4>Free</h4>
+                        <p>On-Site Estimates</p>
                     </div>
                 </div>
             </div>
@@ -167,8 +184,8 @@
     <footer>
         <div class="container footer-grid">
             <div class="footer-about">
-                <h3>KL Dirt Co.</h3>
-                <p>Your premium choice for earthwork, land grooming, and heavy excavation projects. Building the foundations of tomorrow, today.</p>
+                <h3>Acadiana Construction Solutions</h3>
+                <p>Full-service dirt work, site development, demolition, and outdoor construction &mdash; proudly serving all of Acadiana for over 9 years.</p>
             </div>
             <div class="footer-contact">
                 <h3>Contact Info</h3>
@@ -177,25 +194,19 @@
                         <path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z"/>
                         <circle cx="12" cy="9" r="2.5"/>
                     </svg>
-                    <span>Serving Lafayette, Acadiana &amp; South Louisiana</span>
-                </p>
-                <p>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-                        <path d="M6 3h3l2 5-2.5 1.5a11 11 0 0 0 5 5L16 12l5 2v3a2 2 0 0 1-2 2A16 16 0 0 1 4 5a2 2 0 0 1 2-2Z"/>
-                    </svg>
-                    <a href="tel:+15559876543">(555) 987-6543</a>
+                    <a href="https://maps.google.com/?q=1606+Darnall+Rd+New+Iberia+LA+70560" target="_blank" rel="noopener">1606 Darnall Rd, New Iberia, LA 70560</a>
                 </p>
                 <p>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
                         <rect x="3" y="5" width="18" height="14" rx="2"/>
                         <path d="m3 7 9 6 9-6"/>
                     </svg>
-                    <a href="mailto:info@kldirtco-placeholder.com">info@kldirtco-placeholder.com</a>
+                    <a href="mailto:Kleger@ACS.com">Kleger@ACS.com</a>
                 </p>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2026 KL Dirt Co. All Rights Reserved. This is a lead generation website template.</p>
+            <p>&copy; 2026 Acadiana Construction Solutions. All Rights Reserved.</p>
         </div>
     </footer>
 </body>
