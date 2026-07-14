@@ -44,6 +44,10 @@ There are three one-time setup steps: **Resend** (email), **Vercel**
 
    (`LEAD_FROM_EMAIL` must use the domain you verified in Resend. Skip it to
    fall back to the `onboarding@resend.dev` test sender.)
+
+   **Optional** — to also log leads to a Google Sheet, add `SHEETS_WEBHOOK_URL`
+   and `SHEETS_WEBHOOK_TOKEN` as well. See
+   [`GOOGLE_SHEETS_SETUP.md`](GOOGLE_SHEETS_SETUP.md).
 5. **Redeploy** (Deployments → ⋯ → Redeploy) so the new variables take effect.
 
 ## 3. Hostinger — point the domain at Vercel
