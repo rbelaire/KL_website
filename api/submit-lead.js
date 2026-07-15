@@ -7,10 +7,10 @@
 //
 // Required environment variables (set these in the Vercel dashboard):
 //   RESEND_API_KEY   Your Resend API key.
-//   LEAD_TO_EMAIL    Where leads are delivered.   Default: Kleger@ACS.com
+//   LEAD_TO_EMAIL    Where leads are delivered.   Default: Kleger@geauxacs.com
 //   LEAD_FROM_EMAIL  Verified Resend sender.       Default: onboarding@resend.dev
-//                    For production, verify acadianaconstructionsolutions.com
-//                    in Resend and use e.g. "ACS Website <leads@acadianaconstructionsolutions.com>".
+//                    For production, verify geauxacs.com in Resend and use
+//                    e.g. "GeauxACS <leads@geauxacs.com>".
 //
 // Optional (for Google Sheets logging — see GOOGLE_SHEETS_SETUP.md):
 //   SHEETS_WEBHOOK_URL    The Apps Script web-app URL for your leads sheet.
@@ -41,7 +41,7 @@ async function sendLeadEmail({ name, phone, email, serviceLabel, details }) {
     if (!RESEND_API_KEY) {
         throw new Error('missing RESEND_API_KEY environment variable');
     }
-    const TO_EMAIL = process.env.LEAD_TO_EMAIL || 'Kleger@ACS.com';
+    const TO_EMAIL = process.env.LEAD_TO_EMAIL || 'Kleger@geauxacs.com';
     const FROM_EMAIL = process.env.LEAD_FROM_EMAIL || 'Acadiana Construction Solutions <onboarding@resend.dev>';
 
     const html = `
@@ -53,7 +53,7 @@ async function sendLeadEmail({ name, phone, email, serviceLabel, details }) {
         <p style="margin:12px 0 4px"><strong>Project details:</strong></p>
         <p style="margin:0;white-space:pre-line">${escapeHtml(details)}</p>
         <hr style="margin:20px 0;border:none;border-top:1px solid #ddd">
-        <p style="color:#888;font-size:12px;margin:0">Sent from the acadianaconstructionsolutions.com contact form.</p>
+        <p style="color:#888;font-size:12px;margin:0">Sent from the geauxacs.com contact form.</p>
     `;
 
     const text = `New Website Lead
@@ -66,7 +66,7 @@ Service: ${serviceLabel}
 Project details:
 ${details}
 
-Sent from the acadianaconstructionsolutions.com contact form.`;
+Sent from the geauxacs.com contact form.`;
 
     // Direct REST call to Resend to keep the function lightweight (no npm installs needed)
     const response = await fetch('https://api.resend.com/emails', {
