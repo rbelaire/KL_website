@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>ACS — Get Started</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Oswald:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --charcoal:#2B2B2B; --steel:#6E6E6E; --concrete:#C9C6BF; --orange:#F26522;
+    --bg:#faf9f5; --surface:#ffffff; --line:#e7e4dd; --ink:#2B2B2B; --muted:#6E6E6E;
+    --tip:#fdefe7; --tip-line:#f6cdb4;
+    --sans:'Archivo','Segoe UI',system-ui,sans-serif;
+    --label:'Oswald','Arial Narrow',sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased;}
+  .sheet{max-width:720px;margin:0 auto;background:var(--surface);min-height:100vh;}
+  a{color:var(--orange);}
+
+  .head{background:var(--charcoal);color:#fff;padding:34px 40px 30px;position:relative;overflow:hidden;}
+  .head .hexwm{position:absolute;right:-30px;top:-30px;width:200px;height:200px;opacity:.06;}
+  .brandrow{display:flex;align-items:center;gap:11px;margin-bottom:22px;}
+  .brandrow svg.logo{width:40px;height:40px;display:block;}
+  .brandrow .bn{font-family:var(--sans);font-weight:800;font-size:14px;letter-spacing:.5px;text-transform:uppercase;line-height:1;}
+  .brandrow .bs{display:flex;align-items:center;gap:7px;font-family:var(--label);font-weight:500;font-size:9.5px;letter-spacing:3px;text-transform:uppercase;color:var(--concrete);margin-top:4px;}
+  .brandrow .bs::before{content:"";width:16px;height:2px;background:var(--orange);}
+  h1{font-family:var(--sans);font-weight:800;font-size:34px;letter-spacing:.5px;margin-bottom:8px;}
+  .head p{color:var(--concrete);font-size:15px;max-width:52ch;}
+
+  .body{padding:14px 40px 40px;}
+  section{padding:26px 0;border-bottom:1px solid var(--line);}
+  section:last-child{border-bottom:none;}
+  .sec-head{display:flex;align-items:center;gap:14px;margin-bottom:14px;}
+  .num{flex:0 0 auto;width:38px;height:38px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-family:var(--sans);font-weight:800;font-size:16px;color:#fff;}
+  .num.o{background:var(--orange);}
+  .num.d{background:var(--charcoal);}
+  .eyebrow{font-family:var(--label);font-weight:500;font-size:10.5px;letter-spacing:2.5px;text-transform:uppercase;color:var(--steel);}
+  h2{font-family:var(--sans);font-weight:800;font-size:20px;letter-spacing:.4px;text-transform:uppercase;color:var(--charcoal);line-height:1.1;margin-top:2px;}
+  section > p{margin-bottom:14px;color:#413c36;}
+
+  .mini{font-family:var(--label);font-weight:500;font-size:10.5px;letter-spacing:2px;text-transform:uppercase;color:var(--steel);margin:6px 0 8px;}
+
+  .callout{border:1px solid var(--tip-line);background:var(--tip);border-radius:8px;padding:14px 16px;font-size:14.5px;margin-top:16px;color:#5c4433;}
+  .callout .lab{font-family:var(--label);font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--orange);}
+  .callout.neutral{background:#f6f5f2;border-color:var(--line);color:#413c36;}
+  .callout.neutral .ttl{font-weight:700;color:var(--charcoal);display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+  .callout.neutral h4{font-weight:700;font-size:14px;color:var(--charcoal);margin:12px 0 4px;}
+  .callout.neutral ol{margin:0;padding-left:20px;}
+  .callout.neutral li{margin-bottom:4px;}
+
+  .profile-cta{display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;margin:6px 0 20px;}
+  .dl-btn{display:inline-flex;align-items:center;gap:10px;background:var(--orange);color:#fff;text-decoration:none;font-weight:800;font-size:17px;letter-spacing:.4px;padding:16px 30px;border-radius:9px;box-shadow:0 6px 16px rgba(242,101,34,.28);}
+  .dl-btn:hover{background:#d1521a;}
+  .safari-note{font-family:var(--label);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--steel);}
+
+  .steps{list-style:none;margin:4px 0 0;display:grid;gap:12px;}
+  .steps li{display:flex;gap:12px;align-items:flex-start;font-size:15px;}
+  .steps .n{flex:0 0 auto;width:24px;height:24px;border-radius:50%;border:1.5px solid var(--orange);color:var(--orange);font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;}
+
+  .blist{list-style:none;margin:6px 0 18px;display:grid;gap:9px;}
+  .blist li{position:relative;padding-left:20px;font-size:15px;color:#413c36;}
+  .blist li::before{content:"";position:absolute;left:0;top:9px;width:9px;height:9px;background:var(--orange);}
+  .addr{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:8px;padding:12px 16px;margin-bottom:8px;font-weight:700;color:var(--charcoal);text-decoration:none;}
+  .addr::before{content:"";width:8px;height:8px;background:var(--orange);flex:0 0 auto;}
+
+  .foot{background:var(--charcoal);color:var(--concrete);padding:16px 40px;display:flex;justify-content:space-between;align-items:center;font-family:var(--label);font-size:11px;letter-spacing:2px;text-transform:uppercase;}
+  .foot .r{display:flex;align-items:center;gap:8px;color:#fff;}
+  .foot .r::before{content:"";width:16px;height:2px;background:var(--orange);}
+
+  @media (max-width:560px){
+    .head,.body,.foot{padding-left:22px;padding-right:22px;}
+    h1{font-size:28px;}
+    .foot{flex-direction:column;gap:8px;text-align:center;}
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <header class="head">
+    <svg class="hexwm" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50,3 91,26.5 91,73.5 50,97 9,73.5 9,26.5" fill="#ffffff"/></svg>
+    <div class="brandrow">
+      <svg class="logo" viewBox="0 0 100 100" aria-hidden="true">
+        <polygon points="50,3 91,26.5 91,73.5 50,97 9,73.5 9,26.5" fill="#F26522"/>
+        <polygon points="50,15 80.5,32.75 80.5,67.25 50,85 19.5,67.25 19.5,32.75" fill="none" stroke="#2B2B2B" stroke-width="4"/>
+        <text x="50" y="51" font-family="Archivo, Arial, sans-serif" font-size="30" font-weight="800" fill="#ffffff" text-anchor="middle" dominant-baseline="central">ACS</text>
+      </svg>
+      <div>
+        <div class="bn">Acadiana Construction</div>
+        <div class="bs">Solutions</div>
+      </div>
+    </div>
+    <h1>Get Started</h1>
+    <p>Set up your company email on your phone, and get to know your new website.</p>
+  </header>
+
+  <div class="body">
+
+    <!-- 01 EMAIL -->
+    <section>
+      <div class="sec-head">
+        <div class="num o">01</div>
+        <div>
+          <div class="eyebrow">Company email on your phone</div>
+          <h2>Set Up Email — iPhone</h2>
+        </div>
+      </div>
+      <p>Add your <strong>@geauxacs.com</strong> mail to Apple Mail so new-lead alerts reach your phone. Tap the button below <strong>on your iPhone</strong>:</p>
+
+      <div class="profile-cta">
+        <a class="dl-btn" href="https://mobileconfig.mail.hostinger.com/mobileconfig/?emailaddress=kleger%40geauxacs.com&amp;name=kleger%40geauxacs.com">⬇&nbsp;&nbsp;Download Email Profile</a>
+        <span class="safari-note">On iPhone, this must open in Safari</span>
+      </div>
+
+      <ol class="steps">
+        <li><span class="n">1</span><span>Tap <strong>Download Email Profile</strong> above. Tap <strong>Allow</strong> when it asks to download a configuration profile.</span></li>
+        <li><span class="n">2</span><span>Open <strong>Settings</strong> — you'll see <em>Profile Downloaded</em> near the top.</span></li>
+        <li><span class="n">3</span><span>Tap it, then tap <strong>Install</strong> (top right). Enter your phone passcode if asked.</span></li>
+        <li><span class="n">4</span><span>Enter your <strong>@geauxacs.com email password</strong> when prompted, then finish. Done!</span></li>
+      </ol>
+
+      <div class="callout"><span class="lab">Must be Safari</span> — If this page opened inside another app (like a text or Gmail), tap the share icon and choose <strong>Open in Safari</strong> first. iPhone only installs the profile from Safari. Don't have your email password? Reset it anytime in your Hostinger webmail.</div>
+    </section>
+
+    <!-- 02 WEBSITE -->
+    <section>
+      <div class="sec-head">
+        <div class="num d">02</div>
+        <div>
+          <div class="eyebrow">What your site does for you</div>
+          <h2>Your Website</h2>
+        </div>
+      </div>
+      <p>Your site is <a href="https://www.geauxacs.com/">geauxacs.com</a>. It runs on phone, tablet, and computer, and turns visitors into estimate requests.</p>
+      <ul class="blist">
+        <li><strong>Shows your services</strong> — dirt work, house pads, ponds, site development, culverts, demolition, dumpsters, fencing, decks, and patios.</li>
+        <li>Has a <strong>"Request a Free Estimate"</strong> form front and center.</li>
+        <li>Lists your <strong>phone, email, and service area</strong> for customers to reach you.</li>
+      </ul>
+      <div class="mini">Your web addresses</div>
+      <a class="addr" href="https://www.geauxacs.com/">www.geauxacs.com</a>
+      <a class="addr" href="https://www.acadianaconstructionsolutions.com/">www.acadianaconstructionsolutions.com</a>
+
+      <div class="callout neutral">
+        <div class="ttl">⚠ If something seems off</div>
+        <h4>Not seeing new leads?</h4>
+        <ol>
+          <li>Check your email spam / junk folder and mark those messages "Not spam."</li>
+          <li>Send yourself a test through the form on the site.</li>
+        </ol>
+        <h4>Website not loading?</h4>
+        <ol>
+          <li>Try another device or network first — this rules out your own connection.</li>
+          <li>Confirm the domain hasn't hit its renewal date at Hostinger.</li>
+        </ol>
+      </div>
+    </section>
+
+  </div>
+
+  <footer class="foot">
+    <span>Acadiana Construction Solutions</span>
+    <span class="r">geauxacs.com</span>
+  </footer>
+
+</div>
+</body>
+</html>
