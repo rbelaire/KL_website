@@ -899,3 +899,74 @@ h1, h2, h3, h4 {
 .footer-contact h3 {
     font-family: var(--font-label);
 }
+
+/* ==========================================================================
+   Reviews / Testimonials
+   ========================================================================== */
+.reviews {
+    padding: var(--section-pad) 0;
+    background-color: var(--color-cream-bg);
+}
+
+.reviews-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 26px;
+}
+
+@media (min-width: 760px) {
+    .reviews-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.review-card {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    background-color: #ffffff;
+    border: 1px solid var(--color-sand-border);
+    border-top: 3px solid var(--color-orange);
+    border-radius: 10px;
+    padding: 28px 26px;
+    margin: 0;
+    box-shadow: 0 6px 18px rgba(43, 43, 43, 0.05);
+}
+
+.review-card .stars {
+    color: var(--color-orange);
+    font-size: 18px;
+    letter-spacing: 2px;
+    line-height: 1;
+}
+
+.review-card blockquote {
+    margin: 0;
+    font-size: 15.5px;
+    line-height: 1.65;
+    color: var(--color-text);
+    flex-grow: 1;
+}
+
+.review-card figcaption {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding-top: 6px;
+    border-top: 1px solid var(--color-sand-border);
+}
+
+.review-card .reviewer {
+    font-family: var(--font-head);
+    font-weight: 700;
+    color: var(--color-charcoal);
+    font-size: 15px;
+}
+
+.review-card .review-meta {
+    font-family: var(--font-label);
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--color-steel);
+}
