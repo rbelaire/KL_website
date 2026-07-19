@@ -1,24 +1,36 @@
 /* ==========================================================================
-   KL Dirt Co. - Warm & Smooth Earthy Stylesheet (mobile-first)
+   Acadiana Construction Solutions - Concrete & Safety Orange (mobile-first)
    ========================================================================== */
 
-/* Design tokens */
+/* Design tokens — Acadiana Construction Solutions: Concrete + Safety Orange */
 :root {
-    --color-terracotta: #b07241;
-    --color-terracotta-dark: #91562b;
-    --color-espresso: #4a3525;
-    --color-text: #3d352e;
-    --color-text-muted: #615246;
-    --color-clay: #7a6b5e;
-    --color-cream-bg: #fbf9f6;
-    --color-sand-border: #e3ded9;
-    --color-gold: #e3a878;
+    --color-orange:      #F26522; /* Safety Orange — accent, CTAs, rules */
+    --color-orange-dark: #d1521a; /* hover / active */
+    --color-charcoal:    #2B2B2B; /* headlines, primary mark */
+    --color-steel:       #6E6E6E; /* secondary type */
+    --color-concrete:    #C9C6BF; /* light accents on dark */
+    --color-white:       #ffffff;
 
-    --shadow-card: 0 15px 35px rgba(43, 30, 20, 0.25);
-    --shadow-header: 0 2px 15px rgba(74, 53, 37, 0.05);
+    /* Semantic aliases used throughout the stylesheet */
+    --color-terracotta:      var(--color-orange);
+    --color-terracotta-dark: var(--color-orange-dark);
+    --color-espresso:        var(--color-charcoal);
+    --color-text:            #2B2B2B;
+    --color-text-muted:      #6E6E6E;
+    --color-clay:            #6E6E6E;
+    --color-cream-bg:        #f4f3f0; /* light concrete for alternating sections */
+    --color-sand-border:     #e3e1dc;
+    --color-gold:            var(--color-orange);
+
+    --shadow-card: 0 12px 30px rgba(43, 43, 43, 0.16);
+    --shadow-header: 0 1px 3px rgba(43, 43, 43, 0.08);
 
     --container-max: 1200px;
     --section-pad: clamp(56px, 9vw, 90px);
+
+    --font-body:  'Archivo', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    --font-head:  'Archivo', 'Segoe UI', system-ui, sans-serif;
+    --font-label: 'Oswald', 'Arial Narrow', system-ui, sans-serif;
 }
 
 /* Modern Reset & Base Styles */
@@ -34,10 +46,10 @@ html {
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: var(--font-body);
     line-height: 1.6;
     color: var(--color-text);
-    background-color: var(--color-cream-bg);
+    background-color: #ffffff;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden; /* guard against accidental horizontal scroll on mobile */
 }
@@ -78,26 +90,53 @@ header {
 
 .logo {
     display: inline-flex;
-    flex-direction: column;
-    line-height: 1.05;
+    align-items: center;
+    gap: 12px;
     text-decoration: none;
     white-space: nowrap;
 }
 
+.logo-hex {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    display: block;
+}
+
+.logo-word {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
 .logo-main {
-    font-size: clamp(20px, 5vw, 23px);
+    font-family: var(--font-head);
+    font-size: clamp(14px, 3.4vw, 18px);
     font-weight: 800;
-    color: var(--color-terracotta);
+    line-height: 1.02;
+    color: var(--color-charcoal);
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
 }
 
 .logo-sub {
-    font-size: clamp(9px, 2.4vw, 10.5px);
-    font-weight: 600;
-    color: var(--color-espresso);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-label);
+    font-size: clamp(9px, 2.4vw, 11px);
+    font-weight: 500;
+    color: var(--color-steel);
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 3px;
+}
+
+.logo-sub::before {
+    content: "";
+    width: 22px;
+    height: 2px;
+    background-color: var(--color-orange);
+    flex-shrink: 0;
 }
 
 .nav-links {
@@ -154,7 +193,7 @@ header {
 
 /* Hero Section with Split Layout */
 .hero {
-    background: linear-gradient(rgba(43, 30, 20, 0.75), rgba(43, 30, 20, 0.75)),
+    background: linear-gradient(rgba(30, 30, 30, 0.72), rgba(30, 30, 30, 0.72)),
                 url('hero-excavator.webp') no-repeat center center/cover;
     color: #ffffff;
     padding: clamp(56px, 10vw, 90px) 0;
@@ -172,13 +211,13 @@ header {
     font-weight: 800;
     line-height: 1.2;
     margin-bottom: 20px;
-    color: #fffdfa;
+    color: #ffffff;
 }
 
 .hero-text p {
     font-size: clamp(16px, 2.4vw, 18px);
     margin-bottom: 30px;
-    color: #e6dfd5;
+    color: #d8d5cf;
 }
 
 .features-list {
@@ -190,7 +229,7 @@ header {
     display: flex;
     align-items: flex-start;
     font-size: 16px;
-    color: #f5ece1;
+    color: #e8e6e1;
 }
 
 .features-list li::before {
@@ -256,7 +295,7 @@ header {
 .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
     outline: none;
     border-color: var(--color-terracotta);
-    box-shadow: 0 0 0 3px rgba(176, 114, 65, 0.15);
+    box-shadow: 0 0 0 3px rgba(242, 101, 34, 0.22);
 }
 
 .form-group input:invalid:not(:placeholder-shown) {
@@ -360,7 +399,7 @@ header {
 
 .service-box {
     background-color: var(--color-cream-bg);
-    border: 1px solid #f0e9e1;
+    border: 1px solid #e8e6e1;
     border-radius: 8px;
     padding: 35px 30px;
     text-align: center;
@@ -370,7 +409,7 @@ header {
 .service-box:hover {
     transform: translateY(-5px);
     border-color: var(--color-sand-border);
-    box-shadow: 0 10px 25px rgba(74, 53, 37, 0.04);
+    box-shadow: 0 10px 25px rgba(43, 43, 43, 0.05);
 }
 
 .service-icon {
@@ -379,7 +418,7 @@ header {
     margin: 0 auto 22px;
     display: block;
     color: var(--color-terracotta);
-    filter: drop-shadow(0 4px 6px rgba(176, 114, 65, 0.2));
+    filter: drop-shadow(0 4px 6px rgba(242, 101, 34, 0.22));
 }
 
 .service-box h3 {
@@ -396,7 +435,7 @@ header {
 /* Social Proof / Why Choose Us */
 .why-us {
     padding: var(--section-pad) 0;
-    background-color: #f4eee7;
+    background-color: #ffffff;
 }
 
 .stats-grid {
@@ -423,8 +462,8 @@ header {
 
 /* Footer */
 footer {
-    background-color: #261c14;
-    color: #e6dfd5;
+    background-color: #2B2B2B;
+    color: #d8d5cf;
     padding: 50px 0 25px 0;
     font-size: 14px;
 }
@@ -445,12 +484,12 @@ footer {
 }
 
 .footer-about p {
-    color: #c7beab;
+    color: #C9C6BF;
     max-width: 320px;
 }
 
 .footer-contact p {
-    color: #c7beab;
+    color: #C9C6BF;
     margin-bottom: 12px;
     display: flex;
     align-items: center;
@@ -465,7 +504,7 @@ footer {
 }
 
 .footer-contact a {
-    color: #c7beab;
+    color: #C9C6BF;
     text-decoration: none;
     transition: color 0.3s ease;
 }
@@ -477,8 +516,8 @@ footer {
 .footer-bottom {
     text-align: center;
     padding-top: 25px;
-    border-top: 1px solid #3d2f24;
-    color: #948b7c;
+    border-top: 1px solid #454545;
+    color: #8f8b84;
 }
 
 /* ==========================================================================
@@ -507,9 +546,9 @@ footer {
         align-items: stretch;
         gap: 0;
         background-color: #ffffff;
-        box-shadow: 0 12px 20px rgba(43, 30, 20, 0.12);
+        box-shadow: 0 12px 20px rgba(43, 43, 43, 0.12);
         padding: 8px 20px 20px;
-        border-top: 1px solid #f0e9e1;
+        border-top: 1px solid #e8e6e1;
 
         /* hidden by default: slide/fade out and disable interaction */
         transform: translateY(-12px);
@@ -533,7 +572,7 @@ footer {
     .nav-links a {
         display: block;
         padding: 14px 4px;
-        border-bottom: 1px solid #f4eee7;
+        border-bottom: 1px solid #e8e6e1;
     }
 
     .nav-links li:last-child a {
@@ -652,7 +691,7 @@ footer {
 
 .size-card:has(input:checked) .size-card-body {
     border-color: var(--color-terracotta);
-    box-shadow: 0 0 0 3px rgba(176, 114, 65, 0.15);
+    box-shadow: 0 0 0 3px rgba(242, 101, 34, 0.22);
 }
 
 .size-card:has(input:focus-visible) .size-card-body {
@@ -707,7 +746,7 @@ footer {
 }
 
 .step-btn:hover {
-    background-color: #f0e6da;
+    background-color: #ececea;
 }
 
 .step-btn:disabled {
@@ -828,4 +867,35 @@ footer {
     color: var(--color-clay);
     margin-top: 14px;
     line-height: 1.5;
+}
+
+/* ==========================================================================
+   Brand typography — Archivo headings, Oswald labels
+   ========================================================================== */
+h1, h2, h3, h4 {
+    font-family: var(--font-head);
+}
+
+.section-title h2 {
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 800;
+}
+
+.nav-links a {
+    font-family: var(--font-label);
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.nav-cta {
+    letter-spacing: 1px;
+}
+
+.stat-item p,
+.footer-about h3,
+.footer-contact h3 {
+    font-family: var(--font-label);
 }
