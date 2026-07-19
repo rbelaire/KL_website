@@ -106,14 +106,14 @@ header {
 .logo-word {
     display: inline-flex;
     flex-direction: column;
-    line-height: 1;
-    gap: 3px;
+    gap: 4px;
 }
 
 .logo-main {
     font-family: var(--font-head);
-    font-size: clamp(16px, 4.4vw, 20px);
+    font-size: clamp(14px, 3.4vw, 18px);
     font-weight: 800;
+    line-height: 1.02;
     color: var(--color-charcoal);
     text-transform: uppercase;
     letter-spacing: 0.5px;
