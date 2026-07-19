@@ -150,6 +150,58 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     /* -------------------------------------------------------------------
+       Recent Work gallery lightbox
+    ------------------------------------------------------------------- */
+    const lightbox = document.getElementById('lightbox');
+    const grid = document.getElementById('work-grid');
+    if (lightbox && grid) {
+        const tiles = Array.from(grid.querySelectorAll('.work-tile'));
+        const lbImg = document.getElementById('lb-img');
+        const lbCaption = document.getElementById('lb-caption');
+        let current = 0;
+        let lastFocused = null;
+
+        const show = (i) => {
+            current = (i + tiles.length) % tiles.length;
+            const img = tiles[current].querySelector('img');
+            lbImg.src = img.src;
+            lbImg.alt = img.alt;
+            lbCaption.textContent = tiles[current].dataset.caption || '';
+        };
+
+        const open = (i) => {
+            lastFocused = document.activeElement;
+            show(i);
+            lightbox.hidden = false;
+            document.body.style.overflow = 'hidden';
+            document.getElementById('lb-close').focus();
+        };
+
+        const close = () => {
+            lightbox.hidden = true;
+            document.body.style.overflow = '';
+            if (lastFocused) lastFocused.focus();
+        };
+
+        tiles.forEach((tile, i) => tile.addEventListener('click', () => open(i)));
+        document.getElementById('lb-close').addEventListener('click', close);
+        document.getElementById('lb-prev').addEventListener('click', () => show(current - 1));
+        document.getElementById('lb-next').addEventListener('click', () => show(current + 1));
+
+        // Click the dark backdrop (but not the image/controls) to close
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox || e.target.classList.contains('lb-figure')) close();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (lightbox.hidden) return;
+            if (e.key === 'Escape') close();
+            else if (e.key === 'ArrowLeft') show(current - 1);
+            else if (e.key === 'ArrowRight') show(current + 1);
+        });
+    }
+
+    /* -------------------------------------------------------------------
        Lead capture form submission
     ------------------------------------------------------------------- */
     const form = document.querySelector('#quote-form form');
