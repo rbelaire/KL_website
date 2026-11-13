@@ -32,17 +32,24 @@ function doPost(e) {
 
     sheet.appendRow([
       new Date(),
-      body.name || '',
-      body.phone || '',
-      body.email || '',
-      body.service || '',
-      body.message || ''
+      asText(body.name),
+      asText(body.phone),
+      asText(body.email),
+      asText(body.service),
+      asText(body.message)
     ]);
 
     return json({ success: true });
   } catch (err) {
     return json({ error: String(err) });
   }
+}
+
+// Store user input as plain text. Without the leading apostrophe, Sheets would
+// treat values starting with = + - @ as formulas (e.g. a phone "+1 337...").
+function asText(value) {
+  var s = value == null ? '' : String(value);
+  return /^[=+\-@]/.test(s) ? "'" + s : s;
 }
 
 function json(obj) {

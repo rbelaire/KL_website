@@ -1,10 +1,13 @@
 # Deploying GeauxACS.com
 
 This site is a static front end (`index.html`, `style.css`, `script.js`,
-`hero-excavator.webp`) plus one Vercel serverless function
-(`api/submit-lead.js`) that emails contact-form leads to the business inbox
-via [Resend](https://resend.com). The primary domain is **geauxacs.com**
-(registered at Hostinger); the site is hosted on Vercel.
+images, and the `/get-started` page) plus one Vercel serverless function
+(`api/submit-lead.js`). Each quote-form lead is **emailed** to the business
+inbox via [Resend](https://resend.com) and **stored** as a row in a Google
+Sheet (see [`GOOGLE_SHEETS_SETUP.md`](GOOGLE_SHEETS_SETUP.md)). The customer
+gets a success message as long as either one works, so a lead is never lost
+to a single outage. The primary domain is **geauxacs.com** (registered at
+Hostinger); the site is hosted on Vercel.
 
 The domain does three jobs, each using **different DNS records** that do not
 conflict:
@@ -54,17 +57,17 @@ Setup steps: **email mailbox** (Hostinger), **Resend** (form sending),
    empty. Click **Deploy**.
 4. Open **Settings → Environment Variables** and add:
 
-   | Name              | Value                                             |
-   |-------------------|---------------------------------------------------|
-   | `RESEND_API_KEY`  | *(the API key from step 2)*                       |
-   | `LEAD_TO_EMAIL`   | `Kleger@geauxacs.com`                             |
-   | `LEAD_FROM_EMAIL` | `GeauxACS <leads@geauxacs.com>`                   |
+   | Name                   | Value                                        |
+   |------------------------|----------------------------------------------|
+   | `RESEND_API_KEY`       | *(the API key from step 2)*                  |
+   | `LEAD_TO_EMAIL`        | `Kleger@geauxacs.com`                        |
+   | `LEAD_FROM_EMAIL`      | `GeauxACS <leads@geauxacs.com>`              |
+   | `SHEETS_WEBHOOK_URL`   | *(Apps Script web-app URL, ends in `/exec`)* |
+   | `SHEETS_WEBHOOK_TOKEN` | *(same secret as `SHARED_TOKEN` in Code.gs)* |
 
    (`LEAD_FROM_EMAIL` must use the domain you verified in Resend. Skip it to
-   fall back to the `onboarding@resend.dev` test sender.)
-
-   **Optional** — to also log leads to a Google Sheet, add `SHEETS_WEBHOOK_URL`
-   and `SHEETS_WEBHOOK_TOKEN`. See [`GOOGLE_SHEETS_SETUP.md`](GOOGLE_SHEETS_SETUP.md).
+   fall back to the `onboarding@resend.dev` test sender. For the two sheet
+   values, follow [`GOOGLE_SHEETS_SETUP.md`](GOOGLE_SHEETS_SETUP.md).)
 5. **Redeploy** (Deployments → ⋯ → Redeploy) so the variables take effect.
 
 ## 4. Point the domain(s) at Vercel
@@ -88,10 +91,14 @@ Redirect). Anyone visiting the long address lands on the short one.
 
 ## Testing the form
 
-Submit the contact form on the live site. You should receive an email at
-`Kleger@geauxacs.com` within a few seconds; replying goes straight to the
-customer (the code sets `reply_to`). If nothing arrives, check
-**Vercel → your project → Logs** for `submit-lead` and **Resend → Emails**.
+Submit the contact form on the live site. Within a few seconds you should
+receive an email at `Kleger@geauxacs.com` (replying goes straight to the
+customer — the code sets `reply_to`) **and** see a new row in the Leads sheet.
+
+Every submission writes a line to **Vercel → your project → Logs** like
+`Lead received: emailed=true stored=true`. If either is `false`, the line
+just above it (`Lead email FAILED` / `Lead sheet FAILED`) says why. Also check
+**Resend → Emails** for delivery status.
 
 ## Local note
 

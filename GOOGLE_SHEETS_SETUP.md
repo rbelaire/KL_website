@@ -1,12 +1,9 @@
-# Logging leads to a Google Sheet (optional)
+# Storing leads in a Google Sheet
 
-Leads are always emailed to `Kleger@ACS.com`. This adds a **second copy** of
-every lead as a row in a Google Sheet, so you have a running, searchable list.
-It uses a small Google Apps Script "web app" — no Google Cloud project, no
-service-account keys, no cost.
-
-If the Sheet ever fails or isn't set up, the email still goes through — the
-sheet is a best-effort backup, never a blocker.
+Every quote-form lead is emailed to `Kleger@geauxacs.com` **and** saved as a
+row in a Google Sheet, so there's a permanent, searchable list of every
+request. It uses a small Google Apps Script "web app": no Google Cloud
+project, no service-account keys, no cost.
 
 You'll do three things: create the **Sheet**, add the **Script**, then paste
 two values into **Vercel**.
@@ -34,35 +31,44 @@ two values into **Vercel**.
    - Click the gear ⚙️ next to "Select type" → choose **Web app**.
    - **Description:** anything (e.g. "Leads webhook").
    - **Execute as:** **Me**.
-   - **Who has access:** **Anyone**.
+   - **Who has access:** **Anyone** *(not "Anyone with Google account" —
+     the website isn't signed in to Google).*
    - Click **Deploy**.
 6. Google asks you to **authorize** — click through, choose your account, and
    on the "Google hasn't verified this app" screen click **Advanced → Go to
    … (unsafe)** → **Allow**. (This warning is normal for your own scripts.)
-7. Copy the **Web app URL** it gives you (ends in `/exec`). You'll need it in
-   step 3.
+7. Copy the **Web app URL** it gives you. It must look like
+   `https://script.google.com/macros/s/…/exec`. Don't use the editor's URL or a
+   URL ending in `/dev`.
 
 ## 3. Connect it to the site (Vercel)
 
-1. In Vercel → your project → **Settings → Environment Variables**, add:
+1. In Vercel → your project → **Settings → Environment Variables**, set
+   (for **Production**):
 
    | Name                   | Value                                             |
    |------------------------|---------------------------------------------------|
    | `SHEETS_WEBHOOK_URL`   | *(the Web app URL from step 2, ending in `/exec`)*|
    | `SHEETS_WEBHOOK_TOKEN` | *(the same random string you set in the script)*  |
 
-2. **Redeploy** (Deployments → ⋯ → Redeploy) so the new variables take effect.
+2. **Redeploy** (Deployments → ⋯ → Redeploy) so the new values take effect.
 
 ---
 
 ## Test it
 
 Submit the contact form on the live site. You should get the email **and** see
-a new row appear in the Sheet within a few seconds. If the row doesn't show up
-(but the email did), check **Vercel → your project → Logs** for a
-`Sheet Error (non-fatal)` message — it's usually a token mismatch between the
-script and the `SHEETS_WEBHOOK_TOKEN` value, or a deployment set to the wrong
-access level.
+a new row appear in the Sheet within a few seconds. Then check
+**Vercel → your project → Logs** for `Lead received: emailed=true stored=true`.
+
+If it says `stored=false`, the `Lead sheet FAILED` line above it tells you why:
+
+| Log message contains                | Fix                                                        |
+|-------------------------------------|------------------------------------------------------------|
+| `unauthorized`                      | Token in Code.gs ≠ `SHEETS_WEBHOOK_TOKEN` in Vercel.       |
+| `non-JSON` / `HTTP 401/403` / a Google page title | Access isn't **Anyone**, or the URL is wrong. Redo step 2.5–2.7 and update `SHEETS_WEBHOOK_URL`. |
+| `HTTP 404`                          | The deployment was archived or the URL is wrong. Make a new deployment and update the URL. |
+| `missing SHEETS_WEBHOOK_URL`        | The variable isn't set for Production.                     |
 
 ## Changing the script later
 

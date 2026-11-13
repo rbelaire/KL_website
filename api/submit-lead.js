@@ -1,20 +1,21 @@
 // api/submit-lead.js
 //
-// Vercel serverless function that handles each contact-form lead. It emails
-// the lead to the business inbox via Resend (https://resend.com) and, if a
-// Google Sheets webhook is configured, also appends it as a row to a Google
-// Sheet. It only uses fetch, so there are no npm dependencies to install.
+// Vercel serverless function that handles each quote-form lead. Every lead is:
+//   1. Emailed to the business inbox via Resend (https://resend.com), and
+//   2. Stored as a row in the "Leads" Google Sheet via an Apps Script web app
+//      (see GOOGLE_SHEETS_SETUP.md and google-apps-script/Code.gs).
 //
-// Required environment variables (set these in the Vercel dashboard):
-//   RESEND_API_KEY   Your Resend API key.
-//   LEAD_TO_EMAIL    Where leads are delivered.   Default: Kleger@geauxacs.com
-//   LEAD_FROM_EMAIL  Verified Resend sender.       Default: onboarding@resend.dev
-//                    For production, verify geauxacs.com in Resend and use
-//                    e.g. "GeauxACS <leads@geauxacs.com>".
+// Both run in parallel. The customer sees success as long as at least one of
+// them worked, so a lead is never lost because of a single outage; any failure
+// is logged to Vercel's runtime logs. It only uses fetch, so there are no npm
+// dependencies to install.
 //
-// Optional (for Google Sheets logging — see GOOGLE_SHEETS_SETUP.md):
-//   SHEETS_WEBHOOK_URL    The Apps Script web-app URL for your leads sheet.
-//   SHEETS_WEBHOOK_TOKEN  A shared secret that must match the script's token.
+// Environment variables (Vercel → Settings → Environment Variables):
+//   RESEND_API_KEY        Resend API key.
+//   LEAD_TO_EMAIL         Where leads are delivered.  Default: Kleger@geauxacs.com
+//   LEAD_FROM_EMAIL       Verified Resend sender, e.g. "GeauxACS <leads@geauxacs.com>".
+//   SHEETS_WEBHOOK_URL    The Apps Script web-app URL (ends in /exec).
+//   SHEETS_WEBHOOK_TOKEN  Shared secret; must match SHARED_TOKEN in Code.gs.
 
 // Human-readable labels for the form's service-type values.
 const SERVICE_LABELS = {
@@ -27,6 +28,9 @@ const SERVICE_LABELS = {
     'outdoor-living': 'Fencing, Decks & Patios',
     'other': 'Other / Custom Project',
 };
+
+// Give up on a slow upstream rather than leaving the customer waiting.
+const UPSTREAM_TIMEOUT_MS = 15000;
 
 // Escape user input before embedding it in the HTML email body.
 function escapeHtml(value = '') {
@@ -68,7 +72,6 @@ ${details}
 
 Sent from the geauxacs.com contact form.`;
 
-    // Direct REST call to Resend to keep the function lightweight (no npm installs needed)
     const response = await fetch('https://api.resend.com/emails', {
         method: 'POST',
         headers: {
@@ -83,20 +86,24 @@ Sent from the geauxacs.com contact form.`;
             html,
             text,
         }),
+        signal: AbortSignal.timeout(UPSTREAM_TIMEOUT_MS),
     });
 
     if (!response.ok) {
         const errorText = await response.text();
-        throw new Error(errorText || 'Failed to send email');
+        throw new Error(`Resend ${response.status}: ${errorText || 'send failed'}`);
     }
 }
 
-// Append the lead as a row to a Google Sheet via an Apps Script web app.
-// Resolves silently (no-op) when the webhook isn't configured.
-async function appendLeadToSheet({ name, phone, email, serviceLabel, details }) {
+// Append the lead as a row in the Google Sheet. Rejects if it wasn't stored.
+async function storeLeadInSheet({ name, phone, email, serviceLabel, details }) {
     const url = process.env.SHEETS_WEBHOOK_URL;
-    if (!url) return; // sheet logging is optional
+    if (!url) {
+        throw new Error('missing SHEETS_WEBHOOK_URL environment variable');
+    }
 
+    // Apps Script answers with a redirect to googleusercontent.com; fetch
+    // follows it and returns the script's JSON reply.
     const response = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -108,53 +115,68 @@ async function appendLeadToSheet({ name, phone, email, serviceLabel, details }) 
             service: serviceLabel,
             message: details,
         }),
+        signal: AbortSignal.timeout(UPSTREAM_TIMEOUT_MS),
     });
 
+    const bodyText = await response.text();
+    // Google's error pages are huge HTML documents; the <title> says what went wrong.
+    const summary = (bodyText.match(/<title>([^<]*)<\/title>/i)?.[1] || bodyText).slice(0, 200);
     if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(errorText || 'Failed to append to sheet');
+        throw new Error(`Sheet webhook HTTP ${response.status} (${response.url}): ${summary}`);
     }
-    // Apps Script returns HTTP 200 even for handled errors, so check the body too.
-    const data = await response.json().catch(() => ({}));
-    if (data && data.error) {
-        throw new Error(data.error);
+    // Apps Script returns HTTP 200 even for handled errors, so check the body.
+    let data;
+    try {
+        data = JSON.parse(bodyText);
+    } catch (_) {
+        // An HTML page here usually means the web app isn't deployed with
+        // "Who has access: Anyone", or the URL is wrong.
+        throw new Error(`Sheet webhook returned non-JSON (${response.url}): ${summary}`);
+    }
+    if (!data.success) {
+        throw new Error(`Sheet webhook error: ${data.error || 'unknown'}`);
     }
 }
 
 export default async function handler(req, res) {
-    // Only allow POST requests
     if (req.method !== 'POST') {
         res.setHeader('Allow', 'POST');
         return res.status(405).json({ error: 'Method not allowed' });
     }
 
-    const { name, phone, email, 'service-type': serviceType, message } = req.body || {};
+    const body = req.body || {};
+    const clean = (v, max) => String(v ?? '').trim().slice(0, max);
+    const name = clean(body.name, 200);
+    const phone = clean(body.phone, 50);
+    const email = clean(body.email, 200);
+    const serviceType = clean(body['service-type'], 100);
+    const message = clean(body.message, 5000);
 
-    // Basic server-side validation of required fields
     if (!name || !phone || !email || !serviceType) {
         return res.status(400).json({ error: 'Please fill out all required fields.' });
     }
 
     const serviceLabel = SERVICE_LABELS[serviceType] || serviceType;
-    const details = message && message.trim() ? message.trim() : '(none provided)';
+    const details = message || '(none provided)';
     const lead = { name, phone, email, serviceLabel, details };
 
-    // Email is the primary delivery channel; the sheet is a best-effort backup.
-    // Run both in parallel so a slow sheet write never delays the email.
     const [emailOutcome, sheetOutcome] = await Promise.allSettled([
         sendLeadEmail(lead),
-        appendLeadToSheet(lead),
+        storeLeadInSheet(lead),
     ]);
 
-    if (emailOutcome.status === 'rejected') {
-        console.error('Email Error:', emailOutcome.reason);
-        return res.status(500).json({ error: 'Internal Server Error' });
+    const emailed = emailOutcome.status === 'fulfilled';
+    const stored = sheetOutcome.status === 'fulfilled';
+
+    if (!emailed) console.error('Lead email FAILED:', emailOutcome.reason);
+    if (!stored) console.error('Lead sheet FAILED:', sheetOutcome.reason);
+    console.log(`Lead received: emailed=${emailed} stored=${stored}`);
+
+    if (!emailed && !stored) {
+        return res.status(500).json({
+            error: 'Sorry, we could not send your request. Please call us at (337) 967-3880.',
+        });
     }
 
-    // A failed sheet append shouldn't fail the request — the email already went out.
-    if (sheetOutcome.status === 'rejected') {
-        console.error('Sheet Error (non-fatal):', sheetOutcome.reason);
-    }
-
-    return res.status(200).json({ success: true, message: 'Lead sent successfully!' });
+    return res.status(200).json({ success: true, message: 'Lead received!' });
 }
