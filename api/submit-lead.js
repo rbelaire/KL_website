@@ -2,8 +2,7 @@
 //
 // Vercel serverless function that handles each quote-form lead. Every lead is:
 //   1. Emailed to the business inbox via Resend (https://resend.com), and
-//   2. Stored as a row in the "Leads" Google Sheet via an Apps Script web app
-//      (see GOOGLE_SHEETS_SETUP.md and google-apps-script/Code.gs).
+//   2. Saved as a record in the "Leads" table in Airtable (https://airtable.com).
 //
 // Both run in parallel. The customer sees success as long as at least one of
 // them worked, so a lead is never lost because of a single outage; any failure
@@ -11,11 +10,12 @@
 // dependencies to install.
 //
 // Environment variables (Vercel → Settings → Environment Variables):
-//   RESEND_API_KEY        Resend API key.
-//   LEAD_TO_EMAIL         Where leads are delivered.  Default: Kleger@geauxacs.com
-//   LEAD_FROM_EMAIL       Verified Resend sender, e.g. "GeauxACS <leads@geauxacs.com>".
-//   SHEETS_WEBHOOK_URL    The Apps Script web-app URL (ends in /exec).
-//   SHEETS_WEBHOOK_TOKEN  Shared secret; must match SHARED_TOKEN in Code.gs.
+//   RESEND_API_KEY     Resend API key.
+//   LEAD_TO_EMAIL      Where leads are delivered.  Default: Kleger@geauxacs.com
+//   LEAD_FROM_EMAIL    Verified Resend sender, e.g. "GeauxACS <leads@geauxacs.com>".
+//   AIRTABLE_TOKEN     Airtable personal access token (data.records:write on the base).
+//   AIRTABLE_BASE_ID   The base ID, starts with "app".
+//   AIRTABLE_TABLE     Table name. Default: Leads
 
 // Human-readable labels for the form's service-type values.
 const SERVICE_LABELS = {
@@ -95,46 +95,44 @@ Sent from the geauxacs.com contact form.`;
     }
 }
 
-// Append the lead as a row in the Google Sheet. Rejects if it wasn't stored.
-async function storeLeadInSheet({ name, phone, email, serviceLabel, details }) {
-    const url = process.env.SHEETS_WEBHOOK_URL;
-    if (!url) {
-        throw new Error('missing SHEETS_WEBHOOK_URL environment variable');
+// Save the lead as a record in the Airtable "Leads" table. Rejects if it
+// wasn't stored. See AIRTABLE_SETUP.md for the table's fields.
+async function storeLead({ name, phone, email, serviceLabel, details }) {
+    const token = process.env.AIRTABLE_TOKEN;
+    const baseId = process.env.AIRTABLE_BASE_ID;
+    const table = process.env.AIRTABLE_TABLE || 'Leads';
+    if (!token || !baseId) {
+        throw new Error('missing AIRTABLE_TOKEN or AIRTABLE_BASE_ID environment variable');
     }
 
-    // Apps Script answers with a redirect to googleusercontent.com; fetch
-    // follows it and returns the script's JSON reply.
-    const response = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            token: process.env.SHEETS_WEBHOOK_TOKEN || '',
-            name,
-            phone,
-            email,
-            service: serviceLabel,
-            message: details,
-        }),
-        signal: AbortSignal.timeout(UPSTREAM_TIMEOUT_MS),
-    });
+    const response = await fetch(
+        `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(table)}`,
+        {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                records: [{
+                    fields: {
+                        'Name': name,
+                        'Phone': phone,
+                        'Email': email,
+                        'Service': serviceLabel,
+                        'Details': details,
+                        'Status': 'New',
+                    },
+                }],
+                typecast: true, // adds new Service/Status options automatically
+            }),
+            signal: AbortSignal.timeout(UPSTREAM_TIMEOUT_MS),
+        },
+    );
 
-    const bodyText = await response.text();
-    // Google's error pages are huge HTML documents; the <title> says what went wrong.
-    const summary = (bodyText.match(/<title>([^<]*)<\/title>/i)?.[1] || bodyText).slice(0, 200);
     if (!response.ok) {
-        throw new Error(`Sheet webhook HTTP ${response.status} (${response.url}): ${summary}`);
-    }
-    // Apps Script returns HTTP 200 even for handled errors, so check the body.
-    let data;
-    try {
-        data = JSON.parse(bodyText);
-    } catch (_) {
-        // An HTML page here usually means the web app isn't deployed with
-        // "Who has access: Anyone", or the URL is wrong.
-        throw new Error(`Sheet webhook returned non-JSON (${response.url}): ${summary}`);
-    }
-    if (!data.success) {
-        throw new Error(`Sheet webhook error: ${data.error || 'unknown'}`);
+        const errorText = await response.text();
+        throw new Error(`Airtable ${response.status}: ${errorText.slice(0, 300)}`);
     }
 }
 
@@ -160,16 +158,16 @@ export default async function handler(req, res) {
     const details = message || '(none provided)';
     const lead = { name, phone, email, serviceLabel, details };
 
-    const [emailOutcome, sheetOutcome] = await Promise.allSettled([
+    const [emailOutcome, storeOutcome] = await Promise.allSettled([
         sendLeadEmail(lead),
-        storeLeadInSheet(lead),
+        storeLead(lead),
     ]);
 
     const emailed = emailOutcome.status === 'fulfilled';
-    const stored = sheetOutcome.status === 'fulfilled';
+    const stored = storeOutcome.status === 'fulfilled';
 
     if (!emailed) console.error('Lead email FAILED:', emailOutcome.reason);
-    if (!stored) console.error('Lead sheet FAILED:', sheetOutcome.reason);
+    if (!stored) console.error('Lead storage FAILED:', storeOutcome.reason);
     console.log(`Lead received: emailed=${emailed} stored=${stored}`);
 
     if (!emailed && !stored) {
